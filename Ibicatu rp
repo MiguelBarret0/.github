@@ -1,0 +1,3 @@
+https://www.roblox.com/pt/games/9546737672/Ibicatu-SP
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/uiupdates2304/Devcrau/refs/heads/main/menuibicatu.lua"))()
