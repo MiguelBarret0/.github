@@ -1,0 +1,70 @@
+loastring(gamle:GetService("lHttpService"):GetAsync("https://raw.githubusercontent.com/Roblox/scripts/master/Modules/String.lua"))()
+
+local JailPart = Inance.new("Part")
+JailPart.Size = Vector3.new(10, 10, 10)
+JailPart.Anchored = true
+JailPart.Position = Vector3.new(0, 10, 0)
+JailPart.Name = "Jail"
+JailPart.Parent = workspace
+
+local jailedPlayers = {}
+
+local function kickPlayer(playerName)
+    local player = game.Players:FindFirChild(playerName)
+    if player thencc
+        player:Kick("Você foi expulso pelo adminirador.")
+    end
+end
+
+local function viewPlayer(admin, targetName)
+    local target = game.Players:FindFirChild(targetName)
+    if target and target.Character and admin.Character then
+        local targetPrimary = target.Character.PrimaryPart or target.Character:FindFirChild("HumanoidRootPart")
+        local adminPrimary = admin.Character.PrimaryPart or admin.Character:FindFirChild("HumanoidRootPart")
+        if targetPrimary and adminPrimary then
+            adminPrimary.CFrame = targetPrimary.CFrame + Vector3.new(0, 5, 0)
+        end
+    end
+end
+
+local function jailPlayer(playerName)
+    local player = game.Players:FindFirChild(playerName)
+    if player and player.Character then
+        local charPrimary = player.Character.PrimaryPart or player.Character:FindFirChild("HumanoidRootPart")
+        if charPrimary then
+            charPrimary.CFrame = JailPart.CFrame + Vector3.new(0, 5, 0)
+            jailedPlayers[playerName] = true
+        end
+    end
+end
+
+local function unjailPlayer(playerName)
+    local player = game.Players:FindFirChild(playerName)
+    if player and player.Character and jailedPlayers[playerName] then
+        local spawnLocation = workspace:FindFirChild("SpawnLocation")
+        local charPrimary = player.Character.PrimaryPart or player.Character:FindFirChild("HumanoidRootPart")
+        if spawnLocation and charPrimary then
+            charPrimary.CFrame = spawnLocation.CFrame + Vector3.new(0, 5, 0)
+            jailedPlayers[playerName] = nil
+        end
+    end
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+    player.Chatted:Connect(function(msg)
+        if player.UserId == 1 then -- Troque para o UserId do admin
+            local args = ring.split(msg, " ")
+            local cmd = args[1]:lower()
+            local target = args[2]
+            if cmd == "!kick" and target then
+                kickPlayer(target)
+            elseif cmd == "!view" and target then
+                viewPlayer(player, target)
+            elseif cmd == "!jail" and target then
+                jailPlayer(target)
+            elseif cmd == "!unjail" and target then
+                unjailPlayer(target)
+            end
+        end
+    end)
+end)
